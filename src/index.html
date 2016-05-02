@@ -15,15 +15,25 @@
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <canvas id="vizTSP" width="800" height="600"></canvas>
+        <div id="controls">
+            <label for="amountPlaces">Anzahl Orte:</label><br>
+            <input id="amountPlaces" type="number" class="inputBox" min="3" value="3"><br>
+            <label for="amountTracks">Anzahl Tracks:</label><br>
+            <input id="amountTracks" type="number" class="inputBox" min="1" value="1"><br>
+            <label for="amountGenerations">Anzahl Generationen:</label><br>
+            <input id="amountGenerations" type="number" class="inputBox" min="1" value="1"><br>
+            <button id="generatePlaces" type="button" class="tspButtons">Generiere Orte</button>
+            <button id="generateTracks" type="button" class="tspButtons">Generiere Tracks</button>
+            <button id="startClc" type="button" class="tspButtons">Berechne TSP</button>
+        </div>
 
-        <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
 
-        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="js/Place.js"></script>
+        <script src="js/PlaceList.js"></script>
+        <script src="js/Track.js"></script>
+        <script src="js/TrackList.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
