@@ -14,6 +14,7 @@ class DrawField {
     }
 
     static drawTrack(track, placeList){
+        DrawField.drawPlaces(placeList);
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);
         var color  = '#'+(Math.random()*0xFFFFFF<<0).toString(16);

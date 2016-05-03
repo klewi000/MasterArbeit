@@ -8,16 +8,9 @@ class TrackList {
             this.trackList[i].trackLength = this.calcTrackLength(this.trackList[i]);
         }
 
-        //sort trackList by trackLength
-        this.trackList.sort(function (a, b) {
-            return parseFloat(a.trackLength) - parseFloat(b.trackLength);
-        })
-        
-        
-        
-        console.log(this.trackList);
+        this.trackList = this.sortTrackList(this.trackList);
     }
-    
+
     calcTrackLength(track){
         var trackLength = 0;
         for(let i = 0; i < track.placeOrder.length-1; i++){
@@ -33,5 +26,13 @@ class TrackList {
         return trackLength;
     }
 
-    
+    sortTrackList(trackList) {
+        console.log("sort...");
+        trackList.sort(function (a, b) {
+            return parseFloat(a.trackLength) - parseFloat(b.trackLength);
+        })
+        return trackList;
+    }
+
+
 }

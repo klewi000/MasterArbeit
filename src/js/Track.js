@@ -22,5 +22,14 @@ class Track {
         }
     }
 
+    mutateTrack(){
+        var mutatePos1 = Math.floor(Math.random() * (this.placeOrder.length-1) + 0.5);
+        var mutatePos2 = Math.floor(Math.random() * (this.placeOrder.length-1) + 0.5);
+
+        var storePos = this.placeOrder[mutatePos1];
+        this.placeOrder[mutatePos1] = this.placeOrder[mutatePos2];
+        this.placeOrder[mutatePos2] = storePos;
+    }
+
 
 }
