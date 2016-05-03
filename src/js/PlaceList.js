@@ -1,11 +1,18 @@
 class PlaceList {
     
-    constructor(numOfPlaces = 3) {
-        //TODO: generate random Places
-        this.placeList = [];
+    // constructor(numOfPlaces = 3) {}
+
+    constructor(numOfPlaces = 3){
+        var canvasWidth = $('#vizTSP').width();
+        var canvasHeight = $('#vizTSP').height();
+
+        var placeList = [];
         for(let i = 0; i < numOfPlaces; i++) {
-            this.placeList.push(new Place(3, 2));
+            var posX = Math.floor(Math.random() * (canvasWidth));
+            var posY = Math.floor(Math.random() * (canvasHeight));
+            placeList.push(new Place(posX, posY));
         }
+        return placeList;
     }
 
     /**

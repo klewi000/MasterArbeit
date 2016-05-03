@@ -1,25 +1,22 @@
 (function () {
 
+    STAGE = new createjs.Stage("vizTSP");
+
+    //Button generate Places
     $("#generatePlaces").click(function(){
-        var myPlaces = new TSP.Places({
-            amountPlaces:$('#amountPlaces').val()
-        });
+        numOfPlaces = $('#amountPlaces').val();
+        var placeList = new PlaceList(numOfPlaces);
+        console.log(placeList);
+        DrawField.drawPlaces(placeList);
     });
 
+    //Button generate Tracks
     $("#generateTracks").click(function(){
-        var myTracks = new TSP.Tracks({
-            amountTracks:$('#amountTracks').val()
-        });
+        var numOfTracks = $('#amountTracks').val();
+        var trackList = new TrackList(numOfTracks, numOfPlaces);
     });
 
-    var place1 = new Place(4, 3);
-    var place2 = new Place(2, 1);
-    
-    //tracks
-    var trackList = new TrackList(3, 2);
 
-    //places
-    var placeList = new PlaceList(5);
-    placeList.calculateTrackLength(trackList.trackList[0]);
+    // placeList.calculateTrackLength(trackList.trackList[0]);
     
 })();
