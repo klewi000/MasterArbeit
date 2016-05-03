@@ -18,14 +18,15 @@
         <canvas id="vizTSP" width="800" height="600"></canvas>
         <div id="controls">
             <label for="amountPlaces">Anzahl Orte:</label><br>
-            <input id="amountPlaces" type="number" class="inputBox" min="3" value="3"><br>
+            <input id="amountPlaces" type="number" class="inputBox" min="3" value="15"><br>
             <label for="amountTracks">Anzahl Tracks:</label><br>
-            <input id="amountTracks" type="number" class="inputBox" min="1" value="1"><br>
+            <input id="amountTracks" type="number" class="inputBox" min="1" value="10"><br>
             <label for="amountGenerations">Anzahl Generationen:</label><br>
-            <input id="amountGenerations" type="number" class="inputBox" min="1" value="1"><br>
+            <input id="amountGenerations" type="number" class="inputBox" min="1" value="50"><br>
             <button id="generatePlaces" type="button" class="tspButtons">Generiere Orte</button>
             <button id="generateTracks" type="button" class="tspButtons">Generiere Tracks</button>
-            <button id="clcTSP" type="button" class="tspButtons">Berechne TSP</button>
+            <button id="clcTspOne" type="button" class="tspButtons">Berechne OneStep</button>
+            <button id="clcTspAuto" type="button" class="tspButtons">Berechne Auto</button>
         </div>
 
         <output id="outputTrackLength" type="number">0000</output>

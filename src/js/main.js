@@ -22,28 +22,44 @@
     });
 
     //Button calc TSP
-    $('#clcTSP').click(function(){
-        var rateParent = 20;
-        childSolCand = parentSolCand;
-        for(let i = Math.floor(childSolCand.length*rateParent/100); i < childSolCand.length; i++){
-            childSolCand[i].mutateTrack();
-            childSolCand[i].trackLength = trackList.calcTrackLength(childSolCand[i]);
+    $('#clcTspOne').click(function(){
+        mutateTrackList();
+    });
+
+    $('#clcTspAuto').click(function(){
+        var numGenerations = $('#amountGenerations').val();
+        for(let i = 0; i < numGenerations; i++){
+            mutateTrackList();
         }
 
+    });
 
-        console.log("...before sorting...");
-        console.log(childSolCand);
+    function mutateTrackList(){
+        // var rateParent = 20;
+        childSolCand = parentSolCand;
+        // for(let i = Math.floor(childSolCand.length*rateParent/100); i < childSolCand.length; i++){
+        for(let i = 0; i < childSolCand.length; i++){
+            var oldTrack = JSON.parse(JSON.stringify(childSolCand[i]));
+            childSolCand[i].mutateTrack();
+            childSolCand[i].trackLength = trackList.calcTrackLength(childSolCand[i]);
+
+            console.log(childSolCand[i]);
+            console.log(oldTrack);
+            console.log("old tracklength2: " + oldTrack.trackLength);
+            console.log("new tracklength2: " + childSolCand[i].trackLength);
+
+            if(oldTrack.trackLength < childSolCand[i].trackLength){
+                console.log("lower!");
+                console.log(childSolCand[i]);
+                console.log(oldTrack);
+                childSolCand[i] = oldTrack;
+            }
+
+            console.log("----------------------------------");
+        }
         childSolCand = trackList.sortTrackList(childSolCand);
-        console.log("...after sorting...");
-        console.log(childSolCand);
-
-
-
-        // console.log("childSolCand: " + Math.round(childSolCand[0].trackLength *100)/100);
         $('#outputTrackLength').text(Math.round(childSolCand[0].trackLength *100)/100);
         DrawField.drawTrack(childSolCand[0], placeList);
         parentSolCand = childSolCand;
-    });
-
-
+    }
 })();

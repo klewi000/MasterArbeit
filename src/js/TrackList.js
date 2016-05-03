@@ -27,7 +27,6 @@ class TrackList {
     }
 
     sortTrackList(trackList) {
-        console.log("sort...");
         trackList.sort(function (a, b) {
             return parseFloat(a.trackLength) - parseFloat(b.trackLength);
         })
