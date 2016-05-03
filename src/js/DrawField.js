@@ -13,19 +13,22 @@ class DrawField {
         }
     }
 
-    static drawTrack(track){
+    static drawTrack(track, placeList){
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);
         var color  = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         line.graphics.beginStroke(color, 0.01);
-        line.alpha = 0.1;
-        line.graphics.moveTo(track[0].x, track[0].y);
-        for(let i=1; i<track.length; i++){
-            line.graphics.lineTo(track[i].x, track[i].y);
+        line.alpha = 0.5;
+
+        line.graphics.moveTo(placeList[track.placeOrder[0]].x, placeList[track.placeOrder[0]].y);
+        for(let i=1; i<track.placeOrder.length; i++){
+            line.graphics.lineTo(placeList[track.placeOrder[i]].x, placeList[track.placeOrder[i]].y);
         }
+        line.graphics.lineTo(placeList[track.placeOrder[0]].x, placeList[track.placeOrder[0]].y);
+
         line.graphics.endStroke();
-        stage.addChild(line);
-        stage.update();
+        STAGE.addChild(line);
+        STAGE.update();
     }
 }
 

@@ -1,7 +1,4 @@
 class PlaceList {
-    
-    // constructor(numOfPlaces = 3) {}
-
     constructor(numOfPlaces = 3){
         var canvasWidth = $('#vizTSP').width();
         var canvasHeight = $('#vizTSP').height();
@@ -14,19 +11,4 @@ class PlaceList {
         }
         return placeList;
     }
-
-    /**
-     * @param track type Track
-     */
-    calculateTrackLength(track) {
-        //TODO: work with this.placeList
-        //TODO: calculate distances between places
-
-        let sorting = track.placeSorting;
-
-        console.log(sorting);
-
-        console.log('calculated length: 1');
-    }
-    
 }

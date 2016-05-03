@@ -1,8 +1,10 @@
 class Track {
     constructor(numOfPlaces) {
         this.placeOrder = [];
+        this.trackLength = Number.MAX_VALUE;
+
         for (let i = 0; i < numOfPlaces; i++) {
-            this.placeOrder.push(i + 1);
+            this.placeOrder.push(i);
         }
         this.shuffleTrack();
     }

@@ -4,19 +4,19 @@
 
     //Button generate Places
     $("#generatePlaces").click(function(){
-        numOfPlaces = $('#amountPlaces').val();
-        var placeList = new PlaceList(numOfPlaces);
-        console.log(placeList);
+        var numOfPlaces = $('#amountPlaces').val();
+        placeList = new PlaceList(numOfPlaces);
         DrawField.drawPlaces(placeList);
     });
 
     //Button generate Tracks
     $("#generateTracks").click(function(){
         var numOfTracks = $('#amountTracks').val();
-        var trackList = new TrackList(numOfTracks, numOfPlaces);
+        var trackList = new TrackList(numOfTracks, placeList);
+        console.log("main... tracklist...");
+        console.log(trackList.trackList);
+        DrawField.drawTrack(trackList.trackList[0], placeList);
     });
 
 
-    // placeList.calculateTrackLength(trackList.trackList[0]);
-    
 })();
