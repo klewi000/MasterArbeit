@@ -22,7 +22,7 @@ class DrawField {
         line.alpha = 0.5;
 
         line.graphics.moveTo(placeList[track.placeOrder[0]].x, placeList[track.placeOrder[0]].y);
-        for(let i=1; i<track.placeOrder.length; i++){
+        for(let i = 1; i < track.placeOrder.length; i++){
             line.graphics.lineTo(placeList[track.placeOrder[i]].x, placeList[track.placeOrder[i]].y);
         }
         line.graphics.lineTo(placeList[track.placeOrder[0]].x, placeList[track.placeOrder[0]].y);

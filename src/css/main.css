@@ -101,6 +101,10 @@ textarea {
     width: 150px;
     height: 50px;
 }
+.tspButtons:disabled{
+    color: darkgrey;
+}
+
 .inputBox{
     margin: 10px 0 10px 10px;
     width: 50px;

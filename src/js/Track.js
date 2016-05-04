@@ -30,6 +30,4 @@ class Track {
         this.placeOrder[mutatePos1] = this.placeOrder[mutatePos2];
         this.placeOrder[mutatePos2] = storePos;
     }
-
-
 }

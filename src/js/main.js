@@ -1,65 +1,48 @@
 (function () {
 
     STAGE = new createjs.Stage("vizTSP");
-    var placeList;
-    var parentSolCand;
-    var childSolCand;
+    var trackList;
 
     //Button generate Places
     $('#generatePlaces').click(function(){
         var numOfPlaces = $('#amountPlaces').val();
         placeList = new PlaceList(numOfPlaces);
         DrawField.drawPlaces(placeList);
+        $('#generateTracks').prop('disabled', false);
     });
 
     //Button generate Tracks
     $('#generateTracks').click(function(){
         var numOfTracks = $('#amountTracks').val();
-        trackList = new TrackList(numOfTracks, placeList);
-        parentSolCand = trackList.trackList;
-        DrawField.drawTrack(parentSolCand[0], placeList);
-        $('#outputTrackLength').text(Math.round(parentSolCand[0].trackLength *100)/100);
+        trackList = new TrackList(numOfTracks, placeList.length);
+        $('#outputTrackLength').text(Math.round(trackList.trackList[0].trackLength *100)/100);
+        DrawField.drawTrack(trackList.trackList[0], placeList);
+        $('#clcTspOne').prop('disabled', false);
+        $('#clcTspAuto').prop('disabled', false);
     });
 
-    //Button calc TSP
+    //Button calc TSP one step
     $('#clcTspOne').click(function(){
-        mutateTrackList();
+        trackList.mutateTrackList();
+        $('#outputTrackLength').text(Math.round(trackList.trackList[0].trackLength * 100) / 100);
+        DrawField.drawTrack(trackList.trackList[0], placeList);
     });
 
     $('#clcTspAuto').click(function(){
-        var numGenerations = $('#amountGenerations').val();
-        for(let i = 0; i < numGenerations; i++){
-            mutateTrackList();
+        // var numGenerations = $('#amountGenerations').val();
+        // for(let i = 0; i < numGenerations; i++){
+        //     trackList.mutateTrackList();
+        // }
+        for(let j = 0; j < 10; j++){
+            for(let i = 0; i < 100; i++){
+                trackList.mutateTrackList();
+                console.log("mutate");
+            }
+            console.log("draw");
+            $('#outputTrackLength').text(Math.round(trackList.trackList[0].trackLength * 100) / 100);
+            DrawField.drawTrack(trackList.trackList[0], placeList);
+            window.setTimeout(2000);
         }
 
     });
-
-    function mutateTrackList(){
-        // var rateParent = 20;
-        childSolCand = parentSolCand;
-        // for(let i = Math.floor(childSolCand.length*rateParent/100); i < childSolCand.length; i++){
-        for(let i = 0; i < childSolCand.length; i++){
-            var oldTrack = JSON.parse(JSON.stringify(childSolCand[i]));
-            childSolCand[i].mutateTrack();
-            childSolCand[i].trackLength = trackList.calcTrackLength(childSolCand[i]);
-
-            console.log(childSolCand[i]);
-            console.log(oldTrack);
-            console.log("old tracklength2: " + oldTrack.trackLength);
-            console.log("new tracklength2: " + childSolCand[i].trackLength);
-
-            if(oldTrack.trackLength < childSolCand[i].trackLength){
-                console.log("lower!");
-                console.log(childSolCand[i]);
-                console.log(oldTrack);
-                childSolCand[i] = oldTrack;
-            }
-
-            console.log("----------------------------------");
-        }
-        childSolCand = trackList.sortTrackList(childSolCand);
-        $('#outputTrackLength').text(Math.round(childSolCand[0].trackLength *100)/100);
-        DrawField.drawTrack(childSolCand[0], placeList);
-        parentSolCand = childSolCand;
-    }
 })();

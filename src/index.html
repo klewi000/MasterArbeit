@@ -24,16 +24,16 @@
             <label for="amountGenerations">Anzahl Generationen:</label><br>
             <input id="amountGenerations" type="number" class="inputBox" min="1" value="50"><br>
             <button id="generatePlaces" type="button" class="tspButtons">Generiere Orte</button>
-            <button id="generateTracks" type="button" class="tspButtons">Generiere Tracks</button>
-            <button id="clcTspOne" type="button" class="tspButtons">Berechne OneStep</button>
-            <button id="clcTspAuto" type="button" class="tspButtons">Berechne Auto</button>
+            <button id="generateTracks" type="button" class="tspButtons" disabled>Generiere Tracks</button>
+            <button id="clcTspOne" type="button" class="tspButtons" disabled>Berechne OneStep</button>
+            <button id="clcTspAuto" type="button" class="tspButtons" disabled>Berechne Auto</button>
         </div>
 
         <output id="outputTrackLength" type="number">0000</output>
 
 
         <script src="js/vendor/jquery-1.12.0.min.js"></script>
-        <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
+        <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
         <script src="js/Place.js"></script>
         <script src="js/DrawField.js"></script>
         <script src="js/PlaceList.js"></script>
