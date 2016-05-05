@@ -94,7 +94,7 @@ textarea {
 }
 #controls{
     float: left;
-    width: 170px;
+    width: 150px;
 }
 .tspButtons{
     margin: 10px 0 10px 10px;
@@ -107,7 +107,7 @@ textarea {
 
 .inputBox{
     margin: 10px 0 10px 10px;
-    width: 50px;
+    width: 100px;
     height: 50px;
 }
 
