@@ -22,14 +22,15 @@
             <label for="amountTracks">Anzahl Tracks:</label><br>
             <input id="amountTracks" type="number" class="inputBox" min="1" value="10"><br>
             <label for="amountGenerations">Anzahl Generationen:</label><br>
-            <input id="amountGenerations" type="number" class="inputBox" min="1" value="1000"><br>
+            <input id="amountGenerations" type="number" class="inputBox" min="1" value="50"><br>
             <button id="generatePlaces" type="button" class="tspButtons">Generiere Orte</button>
             <button id="generateTracks" type="button" class="tspButtons" disabled>Generiere Tracks</button>
             <button id="clcTspOne" type="button" class="tspButtons" disabled>Berechne OneStep</button>
             <button id="clcTspAuto" type="button" class="tspButtons" disabled>Berechne Auto</button>
         </div>
 
-        <output id="outputTrackLength" type="number">0000</output>
+        <label for="outputTrackLength">best track:</label>
+        <output id="outputTrackLength">0000</output>
 
 
         <script src="js/vendor/jquery-1.12.0.min.js"></script>

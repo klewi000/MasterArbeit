@@ -3,7 +3,7 @@ class DrawField {
         stage = new createjs.Stage("vizTSP");
         for (let i = 0; i < placeList.length; i++) {
             var circle = new createjs.Shape();
-            circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 8);
+            circle.graphics.beginFill("#ad4500").drawCircle(0, 0, 5);
             circle.x = placeList[i].x;
             circle.y = placeList[i].y;
             stage.addChild(circle);
@@ -11,7 +11,7 @@ class DrawField {
 
             circle.on("mousedown", function (evt) {
                 if (movePlaces) {
-                    evt.target.graphics.clear().beginFill("#Blue").drawCircle(0, 0, 8);
+                    evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 5);
                     stage.update();
                 }
             });
@@ -27,14 +27,14 @@ class DrawField {
                 if (movePlaces) {
                     placeList[i].x = evt.stageX;
                     placeList[i].y = evt.stageY;
-                    evt.target.graphics.clear().beginFill("DeepSkyBlue").drawCircle(0, 0, 8);
+                    evt.target.graphics.clear().beginFill("#ad4500").drawCircle(0, 0, 5);
                     stage.update();
                 }
             });
         }
     }
 
-    static drawTrack(track, placeList, first = true) {
+    static drawTrack(track, placeList) {
         console.log("draw track...");
         DrawField.drawPlaces(placeList);
         var line = new createjs.Shape();
@@ -42,7 +42,6 @@ class DrawField {
         var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         line.graphics.beginStroke(color, 0.01);
         line.alpha = 0.5;
-
         line.graphics.moveTo(placeList[track.placeOrder[0]].x, placeList[track.placeOrder[0]].y);
         for (let i = 1; i < track.placeOrder.length; i++) {
             line.graphics.lineTo(placeList[track.placeOrder[i]].x, placeList[track.placeOrder[i]].y);

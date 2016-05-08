@@ -88,8 +88,12 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+body{
+    font-family: Verdana;
+}
+
 #vizTSP{
-    background-color: #dff8ff;
+    background-color: #fde4a1;
     float: left;
 }
 #controls{
@@ -98,9 +102,24 @@ textarea {
 }
 .tspButtons{
     margin: 10px 0 10px 10px;
-    width: 150px;
+    width: 200px;
     height: 50px;
+    border: none;
+    background-color: darkorange;
+    font-weight: 600;
+    box-shadow: #222222;
+
 }
+.tspButtons:hover {
+    border: 1px solid #ff5800;
+    background: #db770b;
+}
+.tspButtons:active {
+    position: relative;
+    top: 1px;
+}
+
+
 .tspButtons:disabled{
     color: darkgrey;
 }
@@ -110,11 +129,6 @@ textarea {
     width: 100px;
     height: 50px;
 }
-
-
-
-
-
 
 
 
