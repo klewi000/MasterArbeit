@@ -1,6 +1,11 @@
 class DrawField {
     static drawPlaces(placeList) {
         stage = new createjs.Stage("vizTSP");
+        var clickone = true;
+        var placeOneX;
+        var placeOneY;
+        var idxOne;
+
         for (let i = 0; i < placeList.length; i++) {
             var circle = new createjs.Shape();
             circle.graphics.beginFill("#ad4500").drawCircle(0, 0, 5);
@@ -31,11 +36,35 @@ class DrawField {
                     stage.update();
                 }
             });
+
+            circle.on("click", function (evt) {
+                console.log("click...");
+                var manualmode = $( "#manualmode" ).is( ":checked" );
+                if (manualmode && !movePlaces) {
+                    if(clickone){
+                        idxOne = i;
+                        clickone = false;
+                    }else{
+                        placeOneX = placeList[idxOne].x;
+                        placeOneY = placeList[idxOne].y;
+                        placeList[idxOne].x = placeList[i].x;
+                        placeList[idxOne].y = placeList[i].y;
+                        placeList[i].x = placeOneX;
+                        placeList[i].y = placeOneY;
+
+                        DrawField.drawTrack(trackList.trackList[0], placeList);
+                        clickone = true;
+                    }
+                    $('#outputTrackLength').text(Math.round(trackList.trackList[0].trackLength * 100) / 100);
+                    evt.target.graphics.clear().beginFill("#25ad0f").drawCircle(0, 0, 8);
+                    stage.update();
+                }
+            });
         }
     }
 
     static drawTrack(track, placeList) {
-        console.log("draw track...");
+        // console.log("draw track...");
         DrawField.drawPlaces(placeList);
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);

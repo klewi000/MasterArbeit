@@ -3,19 +3,13 @@
     stage = new createjs.Stage("vizTSP");
     movePlaces = true;
 
-    console.log("line");
-    line = new createjs.Shape();
-    line.graphics.setStrokeStyle(3);
-    color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-    line.graphics.beginStroke(color, 0.01);
-    line.alpha = 0.5;
-
     //Button generate Places
     $('#generatePlaces').click(function () {
         var numOfPlaces = $('#amountPlaces').val();
         //globale variable placeList!!!
         placeList = new PlaceList(numOfPlaces);
         drawField = new DrawField();
+        DrawField.drawPlaces(placeList);
         DrawField.drawPlaces(placeList);
         $('#generateTracks').prop('disabled', false);
         movePlaces = true;
@@ -47,7 +41,6 @@
             trackList.mutateTrackList();
             $('#outputTrackLength').text(Math.round(trackList.trackList[0].trackLength * 100) / 100);
             DrawField.drawTrack(trackList.trackList[0], placeList);
-
         }
     });
 })();

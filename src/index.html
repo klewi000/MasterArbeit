@@ -18,7 +18,7 @@
         <canvas id="vizTSP" width="800" height="600"></canvas>
         <div id="controls">
             <label for="amountPlaces">Anzahl Orte:</label><br>
-            <input id="amountPlaces" type="number" class="inputBox" min="3" value="15"><br>
+            <input id="amountPlaces" type="number" class="inputBox" min="3" value="5"><br>
             <label for="amountTracks">Anzahl Tracks:</label><br>
             <input id="amountTracks" type="number" class="inputBox" min="1" value="10"><br>
             <label for="amountGenerations">Anzahl Generationen:</label><br>
@@ -27,7 +27,10 @@
             <button id="generateTracks" type="button" class="tspButtons" disabled>Generiere Tracks</button>
             <button id="clcTspOne" type="button" class="tspButtons" disabled>Berechne OneStep</button>
             <button id="clcTspAuto" type="button" class="tspButtons" disabled>Berechne Auto</button>
+            <label for="manualmode">manuell</label>
+            <input id="manualmode" type="checkbox">
         </div>
+
 
         <label for="outputTrackLength">best track:</label>
         <output id="outputTrackLength">0000</output>
