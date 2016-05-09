@@ -64,7 +64,7 @@ class DrawField {
     }
 
     static drawTrack(track, placeList) {
-        // console.log("draw track...");
+        console.log("draw track...");
         DrawField.drawPlaces(placeList);
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);

@@ -31,9 +31,7 @@ class TrackList {
     }
 
     mutateTrackList() {
-        // var rateParent = 20;
         var childSolCand = this.trackList;
-        // for(let i = Math.floor(childSolCand.length*rateParent/100); i < childSolCand.length; i++){
         for (let i = 0; i < this.trackList.length; i++) {
             var oldPlaceOrder = this.trackList[i].placeOrder.slice();
             var oldTrackLength = this.trackList[i].trackLength;

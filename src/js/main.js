@@ -34,7 +34,7 @@
         DrawField.drawTrack(trackList.trackList[0], placeList);
 
     });
-
+    //Button calc TSP Auto
     $('#clcTspAuto').click(function () {
         var numGenerations = $('#amountGenerations').val();
         for (let i = 0; i < numGenerations; i++) {
