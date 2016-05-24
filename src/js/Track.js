@@ -1,12 +1,63 @@
 class Track {
-    constructor(numOfPlaces) {
+    constructor(places, trackLength) {
+        this.places = places;
         this.placeOrder = [];
-        this.trackLength = Number.MAX_VALUE;
+        this._dist = Number.MAX_VALUE;
 
-        for (let i = 0; i < numOfPlaces; i++) {
-            this.placeOrder.push(i);
+        if (trackLength > 0) {
+            for (let i = 0; i < trackLength; i++) {
+                this.placeOrder.push(i);
+            }
+
+            this.shuffleTrack();
         }
-        this.shuffleTrack();
+    }
+
+    get distance() {
+        if (this._dist == Number.MAX_VALUE) {
+            // compute track length
+            var l = 0;
+            if (this.placeOrder.length > 0) {
+                var p0 = this.places[this.placeOrder[0]];
+                var p = p0;
+                for(var i = 1; i < this.placeOrder.length; ++i) {
+                    var pNext = this.places[this.placeOrder[i]];
+                    l += p.distanceTo(pNext.x, pNext.y);
+                    p = pNext;
+                }
+                // close path
+                l += p.distanceTo(p0.x, p0.y);
+            }
+            this._dist = l;
+        }
+        return this._dist;
+    }
+
+    get length() {
+        return this.placeOrder.length;
+    }
+
+    clone() {
+        var t = new Track(this.places, 0);
+        t.placeOrder = this.placeOrder.slice();
+        return t;
+    }
+
+    getPlace(index) {
+        var placeIndex = this.placeOrder[index];
+        return this.places[placeIndex];
+    }
+
+    swap(idx1, idx2) {
+        var tmp = this.placeOrder[idx1];
+        this.placeOrder[idx1] = this.placeOrder[idx2];
+        this.placeOrder[idx2] = tmp;
+    }
+
+    swapPlaces(p1index, p2index) {
+        var idx1 = this.placeOrder.indexOf(p1index);
+        var idx2 = this.placeOrder.indexOf(p2index);
+        this.swap(idx1, idx2);
     }
 
     shuffleTrack() {
@@ -20,14 +71,16 @@ class Track {
             this.placeOrder[m] = this.placeOrder[i];
             this.placeOrder[i] = t;
         }
+
+        this._dist = Number.MAX_VALUE;
     }
 
-    mutateTrack(){
-        var mutatePos1 = Math.floor(Math.random() * (this.placeOrder.length-1) + 0.5);
-        var mutatePos2 = Math.floor(Math.random() * (this.placeOrder.length-1) + 0.5);
+    mutate() {
+        var p1 = Math.floor(Math.random() * this.length);
+        var p2 = Math.floor(Math.random() * this.length);
 
-        var storePos = this.placeOrder[mutatePos1];
-        this.placeOrder[mutatePos1] = this.placeOrder[mutatePos2];
-        this.placeOrder[mutatePos2] = storePos;
+        swap(p1, p2);
+
+        return this;
     }
 }
