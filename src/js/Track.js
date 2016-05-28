@@ -31,7 +31,7 @@ class Track {
         }
         return this._dist;
     }
-    
+
     set distance(val){
         this._dist = val;
     }
@@ -82,10 +82,7 @@ class Track {
     mutate() {
         var p1 = Math.floor(Math.random() * this.length);
         var p2 = Math.floor(Math.random() * this.length);
-        console.log("p1: " + p1 + " p2: " + p2);
-
         this.swap(p1, p2);
-
         return this;
     }
 }

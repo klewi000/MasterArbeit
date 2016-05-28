@@ -87,7 +87,7 @@ class DrawField {
                 //circle.y = places[i].y;
 
                 node.addChild(circle);
-                node.addChild(new createjs.Text("#" + i));
+                // node.addChild(new createjs.Text("#" + i));
 
                 this.hookListeners(circle, i);
 
@@ -128,6 +128,8 @@ class DrawField {
 
         shape.on("mousedown", function (evt) {
             if (movePlaces) {
+                // console.log("evt.stage x|y = " + evt.stageX + " | " + evt.stageY);
+                // console.log(this.places[idx]);
                 evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 5);
                 stage.update();
             }
@@ -135,10 +137,10 @@ class DrawField {
 
         shape.on("pressmove", function (evt) {
             if (movePlaces) {
-                console.log("evt.target x|y = " + evt.target.x + " | " + evt.target.y + " vs. evt.stage x|y " + evt.stageX + " | " + evt.stageY);
-                evt.target.x = evt.stageX;
-                evt.target.y = evt.stageY;
-                stage.update();
+                this.places[idx].x = evt.stageX;
+                this.places[idx].y = evt.stageY;
+                drawField.setPlaces(placeList);
+                this.stage.update();
             }
         }, this);
 
@@ -216,5 +218,3 @@ class DrawField {
     //     }
     // }
 }
-
-
