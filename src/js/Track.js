@@ -8,7 +8,6 @@ class Track {
             for (let i = 0; i < trackLength; i++) {
                 this.placeOrder.push(i);
             }
-
             this.shuffleTrack();
         }
     }
@@ -32,6 +31,10 @@ class Track {
         }
         return this._dist;
     }
+    
+    set distance(val){
+        this._dist = val;
+    }
 
     get length() {
         return this.placeOrder.length;
@@ -53,6 +56,7 @@ class Track {
         this.placeOrder[idx1] = this.placeOrder[idx2];
         this.placeOrder[idx2] = tmp;
     }
+
 
     swapPlaces(p1index, p2index) {
         var idx1 = this.placeOrder.indexOf(p1index);
@@ -78,8 +82,9 @@ class Track {
     mutate() {
         var p1 = Math.floor(Math.random() * this.length);
         var p2 = Math.floor(Math.random() * this.length);
+        console.log("p1: " + p1 + " p2: " + p2);
 
-        swap(p1, p2);
+        this.swap(p1, p2);
 
         return this;
     }

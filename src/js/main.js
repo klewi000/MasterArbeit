@@ -9,7 +9,7 @@
     stage = new createjs.Stage("vizTSP");
     drawField = new DrawField(stage);
     generations = [];
-    
+
     //Button generate Places
     $('#generatePlaces').click(function () {
         var numOfPlaces = $('#amountPlaces').val();
@@ -24,22 +24,24 @@
     //Button generate Tracks
     $('#generateTracks').click(function () {
         var numOfTracks = $('#amountTracks').val();
-        
+
         var initialGen = [];
-        for(let i = 0; i < numOfTracks; ++i) {
+        for (let i = 0; i < numOfTracks; ++i) {
             initialGen.push(new Track(placeList, placeList.length));
         }
-        initialGen.sort(function (a, b) { return a.distance - b.distance });
+        initialGen.sort(function (a, b) {
+            return a.distance - b.distance
+        });
 
         var bestTrack = initialGen[0];
         $('#outputTrackLength').text(Math.round(bestTrack.distance * 100) / 100);
-        
+
         drawField.removeAllTracks();
         drawField.addTrack(bestTrack);
         //for(let i = 0; i < trackList.tracks.length; ++i) {
-            //drawField.addTrack(trackList.tracks[i]);
+        //drawField.addTrack(trackList.tracks[i]);
         //}
-        
+
         $('#clcTspOne').prop('disabled', false);
         $('#clcTspAuto').prop('disabled', false);
         movePlaces = false;
@@ -57,10 +59,10 @@
     //Button calc TSP Auto
     $('#clcTspAuto').click(function () {
         var numGenerations = $('#amountGenerations').val();
-        
+
         generations.splice(0, generations.length - 1);
-        var intervalId = window.setInterval(function() {
-            while(generations.length < numGenerations) {
+        var intervalId = window.setInterval(function () {
+            while (generations.length < numGenerations) {
                 if (computeNextGeneration() < 0) {
                     // we've found a new better solution
                     return;
@@ -70,6 +72,51 @@
         }, 100);
     });
 
+    //give hints by hover elementes
+    var standarttext = "Hinweis: Fahre mit der Maus über ein Element";
+    $('#amountPlaces').hover(function () {
+        $('#hintbox').val("Wähle die Anzahl der Orte für die Berechnung zwischen 3 und 100");
+    });
+    $('#amountPlaces').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#generatePlaces').hover(function () {
+        $('#hintbox').val("Klicke um die Orte zu generieren");
+    });
+    $('#generatePlaces').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#amountTracks').hover(function () {
+        $('#hintbox').val("Wähle die Anzahl der Tracks für die Berechnung zwischen 1 und 1000");
+    });
+    $('#amountTracks').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#generateTracks').hover(function () {
+        $('#hintbox').val("Klicke um die Tracks zu generieren");
+    });
+    $('#generateTracks').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#clcTspOne').hover(function () {
+        $('#hintbox').val("Klicke um eine neue Generation zu mutieren");
+    });
+    $('#clcTspOne').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#clcTspAuto').hover(function () {
+        $('#hintbox').val("Klicke um die in den Steps angegebene Anzahl an neuen Generation zu mutieren");
+    });
+    $('#clcTspAuto').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+
     function computeNextGeneration() {
         var gen = generations[generations.length - 1];
         var bestTrack = gen[0];
@@ -78,7 +125,7 @@
         var newBestTrack = nextGen[0];
 
         generations.push(nextGen);
-        
+
         $('#outputTrackLength').text(Math.round(newBestTrack.distance * 100) / 100);
         drawField.removeTrack(bestTrack); // remove old best gen
         drawField.addTrack(newBestTrack);
@@ -90,33 +137,35 @@
         /* create new generation from gen */
         var nextGen = [];
 
-        for(let i = 0; i < gen.length; ++i) {
+        for (let i = 0; i < gen.length; ++i) {
             var old = gen[i];
             var t = old.clone().mutate();
             if (t.distance < old.distance) {
-                nextGen.push(t);    
+                nextGen.push(t);
             } else {
                 nextGen.push(old.clone());
             }
         }
 
         /*
-        var m = 5;
-        for(let i = 0; i < m; ++i) {
-            // take m best individuals without any modification
-            nextGen.push(gen[i].clone());
-        }
+         var m = 5;
+         for(let i = 0; i < m; ++i) {
+         // take m best individuals without any modification
+         nextGen.push(gen[i].clone());
+         }
 
-        for(let i = m + 1; i < gen.length; ++i) {
-            // take any random individual
-            var idx = Math.floor(Math.random() * gen.length);
-            var old = gen[idx];
-            var t = old.clone().mutate();
-            nextGen.push(t);    
-        }
-        */
+         for(let i = m + 1; i < gen.length; ++i) {
+         // take any random individual
+         var idx = Math.floor(Math.random() * gen.length);
+         var old = gen[idx];
+         var t = old.clone().mutate();
+         nextGen.push(t);
+         }
+         */
 
-        nextGen.sort(function (a, b) { return a.distance - b.distance });
+        nextGen.sort(function (a, b) {
+            return a.distance - b.distance
+        });
 
         return nextGen;
     }

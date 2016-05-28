@@ -18,7 +18,8 @@ class DrawField {
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);
         line.alpha = 0.5;
-        var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+        // var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+        var color = '#736749';
 
         line.graphics.beginStroke(color, 0.01);
         line.graphics.moveTo(p0.x, p0.y);
@@ -55,7 +56,7 @@ class DrawField {
     }
 
     removeAllTracks() {
-        for(let i = 0; i < this.tracks.length; ++i) {
+        for (let i = 0; i < this.tracks.length; ++i) {
             var t = this.tracks[i];
             this.stage.removeChild(t.shape);
             delete t.shape;
@@ -75,7 +76,7 @@ class DrawField {
         if (places) {
             // create new places
             var container = new createjs.Container();
-            for(let i = 0; i < places.length; ++i) {
+            for (let i = 0; i < places.length; ++i) {
                 var node = new createjs.Container();
                 node.x = places[i].x;
                 node.y = places[i].y;
@@ -91,6 +92,7 @@ class DrawField {
                 this.hookListeners(circle, i);
 
                 container.addChild(node);
+                movePlaces = true;
             }
 
             this.placesContainer = container;
@@ -102,20 +104,52 @@ class DrawField {
     }
 
     hookListeners(shape, idx) {
-        shape.on("click", function() {
-            if (this.selection.push(idx) == 2) {
-                // swap selected places
-                var idx1 = this.selection[0];
-                var idx2 = this.selection[1];
-                var t = this.tracks[0];
-                if (t) {
-                    this.removeTrack(t);
-                    t.swapPlaces(idx1, idx2);
-                    this.addTrack(t);
+            shape.on("click", function () {
+                var manualmode = $( '#manualmode' ).is( ':checked' );
+                if(manualmode) {
+                    if (this.selection.push(idx) == 2) {
+                        // swap selected places
+                        var idx1 = this.selection[0];
+                        var idx2 = this.selection[1];
+                        var t = this.tracks[0];
+                        if (t) {
+                            this.removeTrack(t);
+                            t.swapPlaces(idx1, idx2);
+                            this.addTrack(t);
+                            t.distance = Number.MAX_VALUE;
+                            $('#outputTrackLength').text(Math.round(t.distance * 100) / 100);
+                        }
+                        this.selection = [];
+                    }
+                }else{
+                    this.selection = [];
                 }
-                this.selection = [];
+            }, this);
+
+        shape.on("mousedown", function (evt) {
+            if (movePlaces) {
+                evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 5);
+                stage.update();
             }
         }, this);
+
+        shape.on("pressmove", function (evt) {
+            if (movePlaces) {
+                console.log("evt.target x|y = " + evt.target.x + " | " + evt.target.y + " vs. evt.stage x|y " + evt.stageX + " | " + evt.stageY);
+                evt.target.x = evt.stageX;
+                evt.target.y = evt.stageY;
+                stage.update();
+            }
+        }, this);
+
+        // shape.on("pressup", function (evt) {
+        //     if (movePlaces) {
+        //         placeList[i].x = evt.stageX;
+        //         placeList[i].y = evt.stageY;
+        //         evt.target.graphics.clear().beginFill("#ad4500").drawCircle(0, 0, 5);
+        //         stage.update();
+        //     }
+        // }, this);
     }
 
     // static drawPlaces(placeList) {
