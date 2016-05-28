@@ -95,7 +95,7 @@ body{
 #controls{
     float: left;
     width: 180px;
-    height: 900px;
+    height: 100vh;
     padding: 20px 20px;
     background-color: #fdd662;
 }
@@ -107,6 +107,7 @@ body{
     background-color: darkorange;
     font-weight: 600;
     box-shadow: #222222;
+    color: white;
 }
 .tspButtons:hover {
     border: 1px solid #ff5800;
@@ -139,22 +140,23 @@ textarea{
 /*title------------------------------------------*/
 #title{
     position: absolute;
+    width: 750px;
     font-weight: bold;
     font-family: 'Anonymous Pro';
     font-size:25px;
     color: darkorange;
-    margin: 0px 0px 10px 500px;
+    margin: 0px 0px 0px 500px;
 }
 #titletsp{
-    padding-left: 50px;
+    padding-left: 280px;
     margin: 0px;
-    padding-top: 25px;
+    padding-top: 20px;
 
 }
 #titleea{
     margin: 0px;
-    padding-top: 10px;
-    padding-left: 200px;
+    padding-top: 5px;
+    padding-left: 400px;
 }
 
 /*TSP Window--------------------------------------*/
@@ -169,11 +171,11 @@ textarea{
 /*manual mode--------------------------------------*/
 #manualControl{
     position: absolute;
-    left: 300px;
+    left: 350px;
     color: darkorange;
     height: 20px;
     width: 500px;
-    margin-top: 750px;
+    margin-top: 800px;
 
     font-weight: bold;
     font-family: 'Anonymous Pro';
@@ -186,7 +188,7 @@ textarea{
 #bestTrack{
     position: relative;
     float: left;
-    left: 300px;
+    left: 400px;
 }
 
 
