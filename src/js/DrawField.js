@@ -7,21 +7,20 @@ class DrawField {
         this.selection = []; // selected place indices
     }
 
-    addTrack(t) {
+    addTrack(t, alpha = 0.5) {
         if (t.shape) {
             throw "Track already added to this draw field!"
         }
-
         // create line for track and add to stage
         var p0 = t.getPlace(0);
 
         var line = new createjs.Shape();
         line.graphics.setStrokeStyle(3);
-        line.alpha = 0.5;
+        line.alpha = alpha;
         // var color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
         var color = '#736749';
 
-        line.graphics.beginStroke(color, 0.01);
+        line.graphics.beginStroke(color);
         line.graphics.moveTo(p0.x, p0.y);
 
         for (let i = 1; i < t.length; ++i) {

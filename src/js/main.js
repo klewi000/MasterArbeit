@@ -38,6 +38,13 @@
 
         drawField.removeAllTracks();
         drawField.addTrack(bestTrack);
+
+        var allcandidates = $( '#wholegen' ).is( ':checked' );
+        if(allcandidates){
+            for(let i=1; i<initialGen.length; ++i){
+                drawField.addTrack(initialGen[i], 0.05);
+            }
+        }
         //for(let i = 0; i < trackList.tracks.length; ++i) {
         //drawField.addTrack(trackList.tracks[i]);
         //}
@@ -82,7 +89,7 @@
     });
 
     $('#generatePlaces').hover(function () {
-        $('#hintbox').val("Klicke um die Orte zu generieren");
+        $('#hintbox').val("Klicke um die Orte zu generieren, du kannst diese dann noch per drag&drop verschieben");
     });
     $('#generatePlaces').mouseleave(function () {
         $('#hintbox').val(standarttext);
@@ -113,6 +120,13 @@
         $('#hintbox').val("Klicke um die in den Steps angegebene Anzahl an neuen Generation zu mutieren");
     });
     $('#clcTspAuto').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    $('#manMode').hover(function () {
+        $('#hintbox').val("Bei aktivierter Checkbox kannst du 2 beliebe Orte anklicken und vertauschen");
+    });
+    $('#manMode').mouseleave(function () {
         $('#hintbox').val(standarttext);
     });
 
