@@ -6,7 +6,6 @@ class TrackList {
         for (let i = 0; i < numOfTracks; i++) {
             this.tracks.push(new Track(places, places.length));
         }
-
         this.sortTrackList();
     }
 

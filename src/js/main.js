@@ -18,7 +18,8 @@
         drawField.removeAllTracks();
         drawField.setPlaces(placeList);
         $('#generateTracks').prop('disabled', false);
-        // movePlaces = true;
+        $('#clcTspOne').prop('disabled', true);
+        $('#clcTspAuto').prop('disabled', true);
     });
 
     //Button generate Tracks
@@ -39,15 +40,12 @@
         drawField.removeAllTracks();
         drawField.addTrack(bestTrack);
 
-        var allcandidates = $( '#wholegen' ).is( ':checked' );
+        let allcandidates = $( '#wholegen' ).is( ':checked' );
         if(allcandidates){
             for(let i=1; i<initialGen.length; ++i){
-                drawField.addTrack(initialGen[i], 0.05);
+                drawField.addTrack(initialGen[i], 0.08);
             }
         }
-        //for(let i = 0; i < trackList.tracks.length; ++i) {
-        //drawField.addTrack(trackList.tracks[i]);
-        //}
 
         $('#clcTspOne').prop('disabled', false);
         $('#clcTspAuto').prop('disabled', false);
@@ -66,17 +64,19 @@
     //Button calc TSP Auto
     $('#clcTspAuto').click(function () {
         var numGenerations = $('#amountGenerations').val();
+        var i = 1;
 
         generations.splice(0, generations.length - 1);
         var intervalId = window.setInterval(function () {
             while (generations.length < numGenerations) {
-                if (computeNextGeneration() < 0) {
-                    // we've found a new better solution
+                i++;
+                $('#amountGenerations').val(0);
+                if (computeNextGeneration(i) < 0) {
                     return;
                 }
             }
             window.clearInterval(intervalId);
-        }, 100);
+        }, 20);
     });
 
     //give hints by hover elementes
@@ -116,6 +116,13 @@
         $('#hintbox').val(standarttext);
     });
 
+    $('#amountGenerations').hover(function () {
+        $('#hintbox').val("Wähle die Anzahl der Generationen die du mutieren möchtest zwischen 10 und 10000");
+    });
+    $('#amountGenerations').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
     $('#clcTspAuto').hover(function () {
         $('#hintbox').val("Klicke um die in den Steps angegebene Anzahl an neuen Generation zu mutieren");
     });
@@ -130,8 +137,21 @@
         $('#hintbox').val(standarttext);
     });
 
+    $('#allpop').hover(function () {
+        $('#hintbox').val("Bei aktivierter Checkbox wird die gesamte Population angezeigt. Vorsicht rechenintensiv!");
+    });
+    $('#allpop').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
 
-    function computeNextGeneration() {
+    $('#bestTrack').hover(function () {
+        $('#hintbox').val("Hier wird die Länge des kürzesten Tracks der jeweiligen Population ausgegeben");
+    });
+    $('#bestTrack').mouseleave(function () {
+        $('#hintbox').val(standarttext);
+    });
+
+    function computeNextGeneration(i = null) {
         var gen = generations[generations.length - 1];
         var bestTrack = gen[0];
 
@@ -141,8 +161,19 @@
         generations.push(nextGen);
 
         $('#outputTrackLength').text(Math.round(newBestTrack.distance * 100) / 100);
-        drawField.removeTrack(bestTrack); // remove old best gen
+        // drawField.removeTrack(bestTrack); // remove old best gen
+        drawField.removeAllTracks(); // remove whole gen
         drawField.addTrack(newBestTrack);
+        if(i != null){
+            $('#amountGenerations').val(i);
+        }
+
+        let allcandidates = $( '#wholegen' ).is( ':checked' );
+        if(allcandidates){
+            for(let i=1; i<nextGen.length; ++i){
+                drawField.addTrack(nextGen[i], 0.08);
+            }
+        }
 
         return newBestTrack.distance - bestTrack.distance;
     }
@@ -160,22 +191,6 @@
                 nextGen.push(old.clone());
             }
         }
-
-        /*
-         var m = 5;
-         for(let i = 0; i < m; ++i) {
-         // take m best individuals without any modification
-         nextGen.push(gen[i].clone());
-         }
-
-         for(let i = m + 1; i < gen.length; ++i) {
-         // take any random individual
-         var idx = Math.floor(Math.random() * gen.length);
-         var old = gen[idx];
-         var t = old.clone().mutate();
-         nextGen.push(t);
-         }
-         */
 
         nextGen.sort(function (a, b) {
             return a.distance - b.distance
