@@ -5,6 +5,7 @@
 
     var canvasWidth = $('#vizTSP').width();
     var canvasHeight = $('#vizTSP').height();
+    // console.log("canvas W | H: " + canvasWidth + " | " + canvasHeight);
 
     stage = new createjs.Stage("vizTSP");
     drawField = new DrawField(stage);
@@ -40,13 +41,6 @@
         drawField.removeAllTracks();
         drawField.addTrack(bestTrack);
 
-        let allcandidates = $( '#wholegen' ).is( ':checked' );
-        if(allcandidates){
-            for(let i=1; i<initialGen.length; ++i){
-                drawField.addTrack(initialGen[i], 0.08);
-            }
-        }
-
         $('#clcTspOne').prop('disabled', false);
         $('#clcTspAuto').prop('disabled', false);
         movePlaces = false;
@@ -54,6 +48,18 @@
         // add initial generation to generations array
         generations = [];
         generations.push(initialGen);
+
+        $('#wholegen').click(function () {
+            // $('body').addClass('waiting');
+            console.log("click... wohle pop");
+            // let allcandidates = $( '#wholegen' ).is( ':checked' );
+            // if(allcandidates){
+            for (let i = 1; i < initialGen.length; ++i) {
+                drawField.addTrack(initialGen[i], 0.08);
+            }
+            // $('body').removeClass('waiting');
+            // }
+        });
     });
 
     //Button calc TSP one step
@@ -65,19 +71,127 @@
     $('#clcTspAuto').click(function () {
         var numGenerations = $('#amountGenerations').val();
         var i = 1;
+        $('#amountGenerations').val(0);
 
         generations.splice(0, generations.length - 1);
         var intervalId = window.setInterval(function () {
             while (generations.length < numGenerations) {
                 i++;
-                $('#amountGenerations').val(0);
-                if (computeNextGeneration(i) < 0) {
+                $('#amountGenerations').val(i);
+                if (computeNextGeneration() < 0) {
                     return;
                 }
             }
             window.clearInterval(intervalId);
         }, 20);
     });
+
+    function computeNextGeneration() {
+        var gen = generations[generations.length - 1];
+        var bestTrack = gen[0];
+
+        var target = ($('.infobox section:target')[0]);
+        target = ($(target).attr('id'));
+
+        if (target == "evostrat") {
+            console.log('...evolutionäre Strategie');
+            var nextGen = createNewGeneration(gen);
+        } else {
+            console.log('...genetischer Algorithmus');
+            var nextGen = createNewGenerationGA(gen);
+        }
+
+
+        var newBestTrack = nextGen[0];
+
+        generations.push(nextGen);
+
+        $('#outputTrackLength').text(Math.round(newBestTrack.distance * 100) / 100);
+        // drawField.removeTrack(bestTrack); // remove old best gen
+        drawField.removeAllTracks(); // remove whole gen
+        drawField.addTrack(newBestTrack);
+
+        let allcandidates = $('#wholegen').is(':checked');
+        if (allcandidates) {
+            for (let i = 1; i < nextGen.length; ++i) {
+                drawField.addTrack(nextGen[i], 0.08);
+            }
+        }
+
+        return newBestTrack.distance - bestTrack.distance;
+    }
+
+    function createNewGeneration(gen) {
+        /* create new generation from gen ES*/
+        var nextGen = [];
+
+        for (let i = 1; i < gen.length; ++i) {
+            var old = gen[i];
+            var t = old.clone().mutate();
+            if (t.distance < old.distance) {
+                nextGen.push(t);
+            } else {
+                nextGen.push(old.clone());
+            }
+        }
+
+        nextGen.sort(function (a, b) {
+            return a.distance - b.distance
+        });
+
+        return nextGen;
+    }
+
+    function createNewGenerationGA(gen) {
+        /* create new generation from gen */
+        var nextGen = [];
+
+        /* wildcard for best solution candidate*/
+        nextGen[0] = gen[0];
+        var t1;
+        var t2;
+        selstrat = ($('#genalgo form input[name="selection"]:checked').val());
+
+        for (let i = 1; i < gen.length; ++i) {
+            if (selstrat = "tournament") {
+                console.log("...tournament");
+                // t1 = tournamentSel(gen);
+                // t2 = tournamentSel(gen);
+                t1 = gen[0];
+                t2 = gen[1];
+            } else {
+                console.log("...proportion");
+                t1 = proportionSel(gen);
+                t2 = proportionSel(gen);
+            }
+
+            var t = t1.cross(t2);
+            nextGen.push(t);
+
+        }
+
+        nextGen.sort(function (a, b) {
+            return a.distance - b.distance
+        });
+
+        return nextGen;
+    }
+
+    function tournamentSel(gen) {
+        //todo: algo for tournament
+        //  aus zufällig gewählten 10% der Candidaten wird der beste retuorniert
+        var i = Math.floor(Math.random() * gen.length);
+        console.log("var i: " + i);
+        console.log(gen[0]);
+        return gen[i];
+    }
+
+    function proportionSel(gen) {
+        //todo: algo for proportion sel
+        //
+        return Math.floor(Math.random() * gen.length);
+    }
+
 
     //give hints by hover elementes
     var standarttext = "Hinweis: Fahre mit der Maus über ein Element";
@@ -151,51 +265,7 @@
         $('#hintbox').val(standarttext);
     });
 
-    function computeNextGeneration(i = null) {
-        var gen = generations[generations.length - 1];
-        var bestTrack = gen[0];
 
-        var nextGen = createNewGeneration(gen);
-        var newBestTrack = nextGen[0];
 
-        generations.push(nextGen);
 
-        $('#outputTrackLength').text(Math.round(newBestTrack.distance * 100) / 100);
-        // drawField.removeTrack(bestTrack); // remove old best gen
-        drawField.removeAllTracks(); // remove whole gen
-        drawField.addTrack(newBestTrack);
-        if(i != null){
-            $('#amountGenerations').val(i);
-        }
-
-        let allcandidates = $( '#wholegen' ).is( ':checked' );
-        if(allcandidates){
-            for(let i=1; i<nextGen.length; ++i){
-                drawField.addTrack(nextGen[i], 0.08);
-            }
-        }
-
-        return newBestTrack.distance - bestTrack.distance;
-    }
-
-    function createNewGeneration(gen) {
-        /* create new generation from gen */
-        var nextGen = [];
-
-        for (let i = 0; i < gen.length; ++i) {
-            var old = gen[i];
-            var t = old.clone().mutate();
-            if (t.distance < old.distance) {
-                nextGen.push(t);
-            } else {
-                nextGen.push(old.clone());
-            }
-        }
-
-        nextGen.sort(function (a, b) {
-            return a.distance - b.distance
-        });
-
-        return nextGen;
-    }
 })();
