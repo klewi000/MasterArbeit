@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script>
+        var string = navigator.appVersion;
+        substring = "Edge";
+        if (string.indexOf(substring) > -1) {
+            document.write("Bitte verwenden Sie den Browser Google Chrome um den vollen Funktionsumfang nutzen zu können! ");
+            document.write("<a href='https://www.google.de/chrome/browser/desktop/'> Google Chrome </a>");
+        }
+    </script>
+
 </head>
 <body>
 
@@ -26,13 +35,13 @@
     <input id="amountTracks" type="number" class="inputBox" min="1" max="1000" value="50"><br>
     <button id="generateTracks" type="button" class="tspButtons" disabled>Generiere Tracks</button>
 
-    <textarea id="hintbox" rows="5" cols="17">Hinweis: Fahre mit der Maus über ein Element</textarea>
+    <textarea id="hintbox">Hinweis: Fahre mit der Maus über ein Element</textarea>
 
-    <button id="clcTspOne" type="button" class="tspButtons" disabled>Berechne 1-Step</button>
+    <button id="clcTspOne" type="button" class="tspButtons" disabled>Generation</button>
 
-    <label class="mainLabels" for="amountGenerations">Steps:</label><br>
+    <label class="mainLabels" for="amountGenerations">Steps</label>
     <input id="amountGenerations" type="number" class="inputBox" min="10" max="10000" value="500"><br>
-    <button id="clcTspAuto" type="button" class="tspButtons" disabled>Berechne Auto</button>
+    <button id="clcTspAuto" type="button" class="tspButtons" disabled>Starte Evolution</button>
 </div>
 
 <div id="title">
@@ -48,13 +57,33 @@
         <input id="manualmode" type="checkbox">
     </div>
     <div id="allpop">
-        <label for="wholegen">show population</label>
-        <input id="wholegen" type="checkbox">
+        <!--<label for="wholegen">show population</label>-->
+        <!--<input id="wholegen" type="checkbox">-->
+        <button id="wholegen" type="button">show population</button>
     </div>
     <div id="bestTrack">
         <label for="outputTrackLength">best track:</label>
         <output id="outputTrackLength">0000</output>
     </div>
+</div>
+
+<div id="strategy">
+    <article class="infobox">
+        <section id="evostrat">
+            <h2><a href="#evostrat">ES</a></h2>
+            <form action="">
+                <input type="radio" name="strategie" value="mucomlam" checked="checked">&mu; , &lambda;<br>
+                <input type="radio" name="strategie" value="mupluslam">&mu; + &lambda;<br>
+            </form>
+        </section>
+        <section id="genalgo">
+            <h2><a href="#genalgo">GA</a></h2>
+            <form action="">
+                <input type="radio" name="selection" value="proportion" checked="checked">Proportionsselektion<br>
+                <input type="radio" name="selection" value="tournament">Tunierselektion<br>
+            </form>
+        </section>
+    </article>
 </div>
 
 

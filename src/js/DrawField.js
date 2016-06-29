@@ -74,6 +74,7 @@ class DrawField {
         }
 
         if (places) {
+            console.log(places);
             // create new places
             var container = new createjs.Container();
             for (let i = 0; i < places.length; ++i) {
@@ -111,9 +112,11 @@ class DrawField {
     }
 
     hookListeners(shape, idx) {
-        shape.on("click", function () {
+        shape.on("click", function (evt) {
             var manualmode = $('#manualmode').is(':checked');
             if (manualmode) {
+                // evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 7);
+                // stage.update();
                 if (this.selection.push(idx) == 2) {
                     // swap selected places
                     var idx1 = this.selection[0];

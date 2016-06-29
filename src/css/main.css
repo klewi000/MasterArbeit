@@ -91,18 +91,21 @@ textarea {
 body{
     font-family: Verdana;
 }
+body.waiting * {
+    cursor: progress;
+}
 /*side Control---------------------------------*/
 #controls{
     float: left;
-    width: 180px;
-    height: 100vh;
-    padding: 20px 20px;
+    width: 220px;
+    height: 91vh;
+    padding: 63px 20px 20px 20px;
     background-color: #fdd662;
 }
 .tspButtons{
-    margin: 0px 0 30px 0px;
-    width: 180px;
-    height: 50px;
+    margin: 0px 0 40px 0px;
+    width: 220px;
+    height: 60px;
     border: none;
     background-color: darkorange;
     font-weight: 600;
@@ -124,17 +127,19 @@ body{
     margin: 10px 0 10px 10px;
     width: 100px;
     height: 40px;
-    font-size: 25px;
-    /*text-align: right;*/
+    font-size: 28px;
     float: right;
 }
 .mainLabels{
     font-weight: bold;
-    position: absolute;
-    margin-top:25px;
+    font-size: 20px;
+    position: relative;
+    top: 20px;
+
 }
 textarea{
     margin-bottom: 30px;
+    height:8em;
 }
 
 /*title------------------------------------------*/
@@ -196,10 +201,61 @@ textarea{
     left: 270px;
 }
 
-
-
-
-
+/*--------------------evostrat--------------------*/
+/*side Control---------------------------------*/
+#strategy {
+    float: right;
+    width: 220px;
+    height: 91vh;
+    padding: 63px 20px 20px 20px;
+    background-color: #fdd662;
+}
+article.infobox section {
+    position: absolute;
+    display: block;
+    width: 220px;
+    height: 200px;
+    top: 70px;
+    background-color: #c5d2de;
+}
+article.infobox section h2 {
+    position: absolute;
+    left: 0;
+    top: -30px;
+    width: 110px;
+    height: 29px;
+    /*font-family: Verdana;*/
+    font-size: 15px;
+    margin: 0;
+    background-color: #194b7d;
+    border-radius: 15px 15px 0 0;
+    border: solid #ffffff;
+    border-width: 1px 1px 0 0;
+    z-index: 1;
+}
+article.infobox section:nth-child(2) h2 {
+    left: 110px;
+    z-index: 0;
+}
+article.infobox section:nth-child(3) h2 {
+    left: 200px;
+    z-index: -1;
+}
+article.infobox section h2 a {
+    display: block;
+    margin: 5px 0 0 0;
+    text-align: center;
+    text-decoration: none;
+    color: #c5d2de;
+}
+article.infobox section:target, article.infobox section:target h2 {
+    color: #000000;
+    background-color: #c5d2de;
+    z-index: 1;
+}
+article.infobox section:target h2 a {
+    color: #194b7d;
+}
 
 
 
@@ -285,8 +341,53 @@ textarea{
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+@media only screen and (max-width: 1400px) {
+    /*side Control---------------------------------*/
+    #controls{
+        padding: 10px 20px;
+        height: 100vh;
+        width: 180px;
+    }
+    .tspButtons{
+        margin: 0px 0 20px 0px;
+        width: 180px;
+        height: 50px;
+    }
+    textarea {
+        margin-bottom: 30px;
+        height: 8em;
+        width: 11em;
+    }
+    .mainLabels {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /*TSP Window--------------------------------------*/
+    #vizTSP{
+        top: 100px;
+        height: 450px;
+    }
+
+    /*title------------------------------------------*/
+    #title{
+        margin-left: 220px;
+    }
+
+    /*manual mode--------------------------------------*/
+    #manualControl{
+        left: 250px;
+        height: 50px;
+        width: 900px;
+        margin-top: 580px;
+        font-size:20px;
+    }
+    #allpop{
+        left: 90px;
+    }
+    #bestTrack{
+        left: 180px;
+    }
 }
 
 @media print,
