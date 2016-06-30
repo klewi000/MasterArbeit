@@ -113,7 +113,7 @@ class DrawField {
 
     hookListeners(shape, idx) {
         shape.on("click", function (evt) {
-            var manualmode = $('#manualmode').is(':checked');
+            let manualmode = $('#manualmode').is(':checked');
             if (manualmode) {
                 // evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 7);
                 // stage.update();
@@ -137,7 +137,8 @@ class DrawField {
         }, this);
 
         shape.on("mouseover", function (evt) {
-            if (movePlaces) {
+            let manualmode = $('#manualmode').is(':checked');
+            if (movePlaces || manualmode) {
                 evt.target.graphics.clear().beginFill("#e39058").drawCircle(0, 0, 7);
                 stage.update();
             }
