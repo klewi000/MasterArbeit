@@ -57,6 +57,7 @@
             for (let i = 1; i < initialGen.length; ++i) {
                 drawField.addTrack(initialGen[i], 0.08);
             }
+
             // $('body').removeClass('waiting');
             // }
         });
@@ -86,113 +87,78 @@
         }, 20);
     });
 
-    function computeNextGeneration() {
-        var gen = generations[generations.length - 1];
-        var bestTrack = gen[0];
-
+    function createGenerationCreator( populationSize ) {
         var target = ($('.infobox section:target')[0]);
         target = ($(target).attr('id'));
 
         if (target == "evostrat") {
             console.log('...evolutionäre Strategie');
-            var nextGen = createNewGenerationES(gen);
-        } else {
-            console.log('...genetischer Algorithmus');
-            var nextGen = createNewGenerationGA(gen);
+
+            var esstrat = ($('input[name="strategie"]:checked', '#esstrategy').val());
+            console.log('   strategy: ' + esstrat);
+
+            if (esstrat == 'mucomlam') {
+                return new ESGenerationCreator( populationSize * 5, false );
+            }
+
+            if (esstrat == 'mupluslam') {
+                return new ESGenerationCreator( populationSize * 5, true );
+            }
+
+            throw "Invalid ES strategy";
         }
 
+        if (target == "genalgo") {
+            console.log('...genetischer Algorithmus');
+            
+            var gastrat = ($('input[name="selection"]:checked', '#gastrategy').val());
+            console.log('   strategy: ' + gastrat);
 
+            // TODO: get from UI
+            var mutationRate = $('#mutrate').val() / 100;
+            console.log("muation rate: " + mutationRate);
+
+            if (gastrat == 'tournament') {
+                var tournamentSize = populationSize / 10;
+                return new GAGenerationCreator( new TournamentSelection( tournamentSize ), mutationRate );
+            }
+
+            if (gastrat == 'proportion') {
+                return new GAGenerationCreator( new RouletteWheelSelection(), mutationRate );
+            }
+
+            throw "Invalid GA strategy";
+        }
+
+        throw "Invalid generation creation strategy";
+    }
+
+    function computeNextGeneration() {
+        var gen = generations[generations.length - 1];
+        var bestTrack = gen[0];
+
+        var generationCreator = createGenerationCreator(gen.length);
+
+        var nextGen = generationCreator.createNextGeneration(gen);
         var newBestTrack = nextGen[0];
 
         generations.push(nextGen);
 
         $('#outputTrackLength').text(Math.round(newBestTrack.distance * 100) / 100);
+
+        // let allcandidates = $('#wholegen').is(':checked');
+        // if (allcandidates) {
+        //     for (let i = 1; i < nextGen.length; ++i) {
+        //         drawField.addTrack(nextGen[i], 0.08);
+        //     }
+        // }
+
         // drawField.removeTrack(bestTrack); // remove old best gen
         drawField.removeAllTracks(); // remove whole gen
         drawField.addTrack(newBestTrack);
 
-        let allcandidates = $('#wholegen').is(':checked');
-        if (allcandidates) {
-            for (let i = 1; i < nextGen.length; ++i) {
-                drawField.addTrack(nextGen[i], 0.08);
-            }
-        }
-
         return newBestTrack.distance - bestTrack.distance;
     }
-
-    function createNewGenerationES(gen) {
-        /* create new generation from gen ES*/
-        var nextGen = [];
-        var mutrate = $('#mutrate').val();
-
-        for (let i = 1; i < gen.length; ++i) {
-            var old = gen[i];
-            var t = old.clone().mutate();
-            if (t.distance < old.distance) {
-                nextGen.push(t);
-            } else {
-                nextGen.push(old.clone());
-            }
-        }
-
-        nextGen.sort(function (a, b) {
-            return a.distance - b.distance
-        });
-
-        return nextGen;
-    }
-
-    function createNewGenerationGA(gen) {
-        /* create new generation from gen */
-        var nextGen = [];
-
-        /* wildcard for best solution candidate*/
-        nextGen[0] = gen[0];
-        var t1;
-        var t2;
-        selstrat = ($('#genalgo form input[name="selection"]:checked').val());
-
-        for (let i = 1; i < gen.length; ++i) {
-            if (selstrat = "tournament") {
-                console.log("...tournament");
-                // t1 = tournamentSel(gen);
-                // t2 = tournamentSel(gen);
-                t1 = gen[0];
-                t2 = gen[1];
-            } else {
-                console.log("...proportion");
-                t1 = proportionSel(gen);
-                t2 = proportionSel(gen);
-            }
-
-            var t = t1.cross(t2);
-            nextGen.push(t);
-
-        }
-
-        nextGen.sort(function (a, b) {
-            return a.distance - b.distance
-        });
-
-        return nextGen;
-    }
-
-    function tournamentSel(gen) {
-        //todo: algo for tournament
-        //  aus zufällig gewählten 10% der Candidaten wird der beste retuorniert
-        var i = Math.floor(Math.random() * gen.length);
-        console.log("var i: " + i);
-        console.log(gen[0]);
-        return gen[i];
-    }
-
-    function proportionSel(gen) {
-        //todo: algo for proportion sel
-        //
-        return Math.floor(Math.random() * gen.length);
-    }
-
 
     //give hints by hover elementes
     var standarttext = "Hinweis: Fahre mit der Maus über ein Element";

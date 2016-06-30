@@ -90,12 +90,13 @@ class Track {
 
         // create new place order by mixing this' and t2's place orders
         var n = this.length / 2;
-        var newPlaceOrder = this.placeOrder.slice(0, n);
-        newPlaceOrder.concat(t2.placeOrder.slice(n));
+        var newPlaceOrder = this.placeOrder.slice(0, n).concat(t2.placeOrder.slice(n));
 
-        Track newTrack = new Track(this.places, 0);
+        var newTrack = new Track(this.places, 0);
         newTrack.placeOrder = newPlaceOrder;
         newTrack.repair();
+
+        return newTrack;
     }
 
     repair() {

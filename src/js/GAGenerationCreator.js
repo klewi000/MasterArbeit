@@ -15,8 +15,8 @@ class GAGenerationCreator {
 		// select rest from generation array
 		for(let i = 1; i < generation.length; ++i) {
 			// take two individuums (selection)
-			var indiv1 = selection.select( generation );
-			var indiv2 = selection.select( generation );
+			var indiv1 = this.selection.select( generation );
+			var indiv2 = this.selection.select( generation );
 
 			// mate them (crossing)
 			var newIndiv = indiv1.cross(indiv2);
@@ -28,6 +28,9 @@ class GAGenerationCreator {
 
 			nextGen[i] = newIndiv;
 		}
+
+		// sort children by fitness
+		nextGen.sort( function(a, b) { return a.distance - b.distance });
 
 		return nextGen;
 	}

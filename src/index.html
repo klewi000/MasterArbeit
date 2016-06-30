@@ -70,15 +70,16 @@
 <div id="strategy">
     <article class="infobox">
         <section id="evostrat">
+            <div id="evostrat"/>
             <h2><a href="#evostrat">ES</a></h2>
-            <form action="">
+            <form action="" id="esstrategy">
                 <input type="radio" name="strategie" value="mucomlam" checked="checked">&mu; , &lambda; Selektion<br>
                 <input type="radio" name="strategie" value="mupluslam">&mu; + &lambda; Selektion<br>
             </form>
         </section>
         <section id="genalgo">
             <h2><a href="#genalgo">GA</a></h2>
-            <form action="">
+            <form action="" id="gastrategy">
                 <input type="radio" name="selection" value="proportion" checked="checked">Proportionsselektion<br>
                 <input type="radio" name="selection" value="tournament">Tunierselektion<br>
                 <label class="" for="mutrate">Mutationsrate</label>
@@ -88,7 +89,6 @@
     </article>
 </div>
 
-
 <script src="js/vendor/jquery-1.12.0.min.js"></script>
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script src="https://code.createjs.com/tweenjs-0.6.2.min.js"></script>
@@ -97,6 +97,11 @@
 <script src="js/PlaceList.js"></script>
 <script src="js/Track.js"></script>
 <script src="js/TrackList.js"></script>
+<script src="js/BestOfSelection.js"></script>
+<script src="js/RouletteWheelSelection.js"></script>
+<script src="js/TournamentSelection.js"></script>
+<script src="js/ESGenerationCreator.js"></script>
+<script src="js/GAGenerationCreator.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 
