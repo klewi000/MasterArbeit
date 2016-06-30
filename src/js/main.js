@@ -95,7 +95,7 @@
 
         if (target == "evostrat") {
             console.log('...evolutionäre Strategie');
-            var nextGen = createNewGeneration(gen);
+            var nextGen = createNewGenerationES(gen);
         } else {
             console.log('...genetischer Algorithmus');
             var nextGen = createNewGenerationGA(gen);
@@ -121,9 +121,10 @@
         return newBestTrack.distance - bestTrack.distance;
     }
 
-    function createNewGeneration(gen) {
+    function createNewGenerationES(gen) {
         /* create new generation from gen ES*/
         var nextGen = [];
+        var mutrate = $('#mutrate').val();
 
         for (let i = 1; i < gen.length; ++i) {
             var old = gen[i];
