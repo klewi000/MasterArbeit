@@ -48,19 +48,33 @@
         // add initial generation to generations array
         generations = [];
         generations.push(initialGen);
+    });
 
-        $('#wholegen').click(function () {
-            // $('body').addClass('waiting');
-            console.log("click... wohle pop");
-            // let allcandidates = $( '#wholegen' ).is( ':checked' );
-            // if(allcandidates){
-            for (let i = 1; i < initialGen.length; ++i) {
-                drawField.addTrack(initialGen[i], 0.08);
+    $('#wholegen').click(function () {
+        // $('body').addClass('waiting');
+        console.log("click... whole gen");
+        // let allcandidates = $( '#wholegen' ).is( ':checked' );
+        // if(allcandidates){
+        if (generations.length === 0) return;
+        
+        var lastGen = generations[generations.length - 1];
+        var best = lastGen[0].distance;
+        var worst = lastGen[lastGen.length - 1].distance;
+        var diff = best - worst;
+
+        var maxOpacity = 0.2;
+        var minOpacity = 0.01;
+
+        drawField.run( function() {
+            for (let i = 1; i < lastGen.length; ++i) {
+                var t = lastGen[i];
+                this.removeTrack(t); // in case of...
+                this.addTrack(t, maxOpacity - (maxOpacity - minOpacity) * (best - t.distance) / diff);
             }
-
-            // $('body').removeClass('waiting');
-            // }
         });
+
+        // $('body').removeClass('waiting');
+        // }
     });
 
     //Button calc TSP one step
@@ -74,16 +88,18 @@
         var i = 1;
         $('#amountGenerations').val(0);
 
+        // delete all generations but keep the last
         generations.splice(0, generations.length - 1);
         var intervalId = window.setInterval(function () {
             while (generations.length < numGenerations) {
                 i++;
-                $('#amountGenerations').val(i);
                 if (computeNextGeneration() < 0) {
+                    $('#amountGenerations').val(i);
                     return;
                 }
             }
             window.clearInterval(intervalId);
+            $('#amountGenerations').val(i);
         }, 20);
     });
 
@@ -133,6 +149,8 @@
         throw "Invalid generation creation strategy";
     }
 
+    /* compute next generation and return fitness difference to the previous generation */
+    /* (negative values mean the new generation is better than the old one) */
     function computeNextGeneration() {
         var gen = generations[generations.length - 1];
         var bestTrack = gen[0];

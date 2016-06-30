@@ -6,6 +6,17 @@ class DrawField {
         this.places = []; // array of Place
         this.tracks = []; // array of Track
         this.selection = []; // selected place indices
+        this.runCount = 0;
+    }
+
+    run( fct ) {
+        this.runCount++;
+        try {
+            fct.call(this);
+        } finally {
+            this.runCount--;
+            if (this.runCount === 0) this.stage.update();
+        }
     }
 
     addTrack(t, alpha = 0.8) {
@@ -37,14 +48,18 @@ class DrawField {
         this.tracks.push(t);
 
         this.stage.addChild(line);
-        this.stage.update();
+        if (this.runCount === 0) this.stage.update();
+    }
+
+    containsTrack(t) {
+        return (t.shape !== undefined) && this.tracks.indexOf(t) >= 0;
     }
 
     removeTrack(t) {
         // find line for track and remove from stage
         if (t.shape) {
             this.stage.removeChild(t.shape);
-            this.stage.update();
+            if (this.runCount === 0) this.stage.update();
 
             // remove stored shape from track
             delete t.shape;
@@ -62,7 +77,7 @@ class DrawField {
             delete t.shape;
         }
         this.tracks = [];
-        this.stage.update();
+        if (this.runCount === 0) this.stage.update();
     }
 
     setPlaces(places, idx = null) {
@@ -107,7 +122,7 @@ class DrawField {
             this.places = places;
 
             this.stage.addChild(container);
-            this.stage.update();
+            if (this.runCount === 0) this.stage.update();
         }
     }
 
