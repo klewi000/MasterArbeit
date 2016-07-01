@@ -57,7 +57,6 @@ class Track {
         this.placeOrder[idx2] = tmp;
     }
 
-
     swapPlaces(p1index, p2index) {
         var idx1 = this.placeOrder.indexOf(p1index);
         var idx2 = this.placeOrder.indexOf(p2index);
@@ -86,51 +85,39 @@ class Track {
         return this;
     }
     
-    cross(t2){
-        var tx = this;
-        var usePlaces = [];
-        for(let j = 0; j < tx.length; ++j){
-            usePlaces[j] = 0;
+    cross(t2) {
+        if (t2.length != this.length) throw "Track length mismatch!";
+
+        // create new place order by mixing this' and t2's place orders
+        var n = this.length / 2;
+        var newPlaceOrder = this.placeOrder.slice(0, n).concat(t2.placeOrder.slice(n));
+
+        var newTrack = new Track(this.places, 0);
+        newTrack.placeOrder = newPlaceOrder;
+        newTrack.repair();
+
+        return newTrack;
+    }
+
+    repair() {
+        var doubleIndices = [];
+
+        var count = Array(this.length).fill(0);
+        for(let i = 0; i < this.length; ++i) {
+            var p = this.placeOrder[i];
+            if (count[p] > 0) {
+                doubleIndices.push(i);
+            }
+            count[p]++;
         }
-
-        //fill new track
-        for(let i = 0; i < tx.length; ++i){
-            if(i< tx.length/2){
-                usePlaces[tx.placeOrder[i]]++;
-            }else{
-
-                tx[i] = t2[i];
-                usePlaces[t2.placeOrder[i]]++;
+        
+        doubleIndices.reverse();
+        for(let p = 0; p < count.length; ++p) {
+            if (count[p] === 0) {
+                // place p is not used, insert it at first double index
+                var idx = doubleIndices.pop();
+                this.placeOrder[idx] = p;
             }
         }
-
-        var doubles = 0;
-        for(let h = 0; h < usePlaces.length; ++h){
-            if(usePlaces[h]==2){
-                doubles++;
-            }
-        }
-
-        //repair new track
-        for(let l = 0; l < doubles; l++){
-            var doubleUsed = 0;
-            while(usePlaces[doubleUsed] != 2){
-                doubleUsed++;
-            }
-            var noUsed = 0;
-            while(usePlaces[noUsed] != 0){
-                noUsed++;
-            }
-            var y = 0;
-            while(tx.placeOrder[y] != doubleUsed){
-                y++;
-            }
-            tx.placeOrder[y] = noUsed;
-            usePlaces[doubleUsed] = 1;
-            usePlaces[noUsed] = 1;
-        }
-
-        console.log(usePlaces);
-        return tx;
     }
 }
